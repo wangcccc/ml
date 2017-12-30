@@ -1,6 +1,10 @@
 """
 kNN solution for the recognition of the MNIST database of handwritten digits
 Training and test set are downloaded from: http://yann.lecun.com/exdb/mnist/
+
+Result when set train_size to 60,000 and test_size to 3,000:
+The error rate is: 0.045667
+Time used: 1719.804910s
 """
 
 import numpy as np
