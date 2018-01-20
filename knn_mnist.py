@@ -20,29 +20,26 @@ IMG_SIZE = IMG_W * IMG_H
 
 # use cv2.waitKey() to stop window from closing
 def display_nth_digit(fname, n):
-    fr = open(fname, 'rb')
-    fr.seek(X_SKIP + IMG_SIZE * n)
-    bytes = fr.read(IMG_SIZE)
-    fr.close()
+    with open(fname, 'rb') as fr:
+        fr.seek(X_SKIP + IMG_SIZE * n)
+        bytes = fr.read(IMG_SIZE)
     img = np.frombuffer(bytes, np.uint8).reshape(IMG_W, IMG_H)
     cv2.imshow(str(n), img)
 
 
 # load normalized input data
 def load_x(fname, size):
-    fr = open(fname, 'rb')
-    fr.seek(X_SKIP)
-    bytes = fr.read(IMG_SIZE * size)
-    fr.close()
+    with open(fname, 'rb') as fr:
+        fr.seek(X_SKIP)
+        bytes = fr.read(IMG_SIZE * size)
     array = np.frombuffer(bytes, np.uint8).reshape(size, IMG_SIZE)
     return array / 255
 
 
 def load_y(fname, size):
-    fr = open(fname, 'rb')
-    fr.seek(Y_SKIP)
-    bytes = fr.read(size)
-    fr.close()
+    with open(fname, 'rb') as fr:
+        fr.seek(Y_SKIP)
+        bytes = fr.read(size)
     array = np.frombuffer(bytes, np.uint8)
     return array
 
@@ -60,7 +57,7 @@ def knn_classify(x, train_x, train_y, k):
 
 
 def test_viewer():
-    display_nth_digit('train-images-idx3-ubyte', 100)
+    display_nth_digit('data/train-images-idx3-ubyte', 100)
     cv2.waitKey()
     cv2.destroyAllWindows()
 
@@ -68,10 +65,10 @@ def test_viewer():
 if __name__ == '__main__':
     train_size = 60000
     test_size = 3000
-    train_x = load_x('train-images-idx3-ubyte', train_size)
-    train_y = load_y('train-labels-idx1-ubyte', train_size)
-    test_x = load_x('t10k-images-idx3-ubyte', test_size)
-    test_y = load_y('t10k-labels-idx1-ubyte', test_size)
+    train_x = load_x('data/train-images-idx3-ubyte', train_size)
+    train_y = load_y('data/train-labels-idx1-ubyte', train_size)
+    test_x = load_x('data/t10k-images-idx3-ubyte', test_size)
+    test_y = load_y('data/t10k-labels-idx1-ubyte', test_size)
 
     start_time = time.time()
     error_count = 0
